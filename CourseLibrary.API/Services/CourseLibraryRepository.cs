@@ -130,10 +130,10 @@ namespace CourseLibrary.API.Services
                 throw new ArgumentNullException(nameof(authorResourceParameters));
             }
 
-            if (string.IsNullOrWhiteSpace(authorResourceParameters.MainCategory) && string.IsNullOrWhiteSpace(authorResourceParameters.SearchQueary))
-            {
-                return GetAuthors();
-            }
+            //if (string.IsNullOrWhiteSpace(authorResourceParameters.MainCategory) && string.IsNullOrWhiteSpace(authorResourceParameters.SearchQueary))
+            //{
+            //    return GetAuthors();
+            //}
 
             // Casting the Dbset to IQuearyable
             var collections = _context.Authors as IQueryable<Author>;
@@ -152,7 +152,11 @@ namespace CourseLibrary.API.Services
                 collections = collections.Where(p => p.MainCategory.Contains(searchQueary) || p.FirstName.Contains(searchQueary) || p.LastName.Contains(searchQueary));
             }
 
-            return collections.ToList();
+            return collections
+                // Adding paging
+                .Skip(authorResourceParameters.PageSize * (authorResourceParameters.PageNumber - 1))
+                .Skip(authorResourceParameters.PageSize)
+                .ToList();
         }
 
         public IEnumerable<Author> GetAuthors(IEnumerable<Guid> authorIds)
