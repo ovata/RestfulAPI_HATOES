@@ -145,6 +145,21 @@ namespace CourseLibrary.API.Services
                 collections = collections.Where(q => q.MainCategory == mainCategory);
             }
 
+            // Sorting
+            //IQueryable<Qoute> qoutes;
+            //switch (sort)
+            //{
+            //    case "desc":
+            //        qoutes = _context.Qoutes.OrderByDescending(q => q.CreatedAt);
+            //        break;
+            //    case "asc":
+            //        qoutes = _context.Qoutes.OrderBy(q => q.CreatedAt);
+            //        break;
+            //    default:
+            //        qoutes = _context.Qoutes;
+            //        break;
+            //}
+
             // Adding search queary
             if (!string.IsNullOrWhiteSpace(authorResourceParameters.SearchQueary))
             {

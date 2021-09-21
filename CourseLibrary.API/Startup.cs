@@ -13,6 +13,7 @@ using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json.Serialization;
 using System;
 using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace CourseLibrary.API
 {
@@ -83,6 +84,17 @@ namespace CourseLibrary.API
                 };
             });
 
+            // Authentication Services
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.Authority = "https://dev-br4whwu6.us.auth0.com/";
+                options.Audience = "http://localhost:51044/";
+            });
+
             services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo {Title = "API", Version = "v1"}); });
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
@@ -119,6 +131,9 @@ namespace CourseLibrary.API
             }
 
             app.UseRouting();
+
+            // 2. Enable authentication middleware
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

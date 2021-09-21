@@ -11,6 +11,7 @@ namespace CourseLibrary.API.ResourceParameters
         public string MainCategory { get; set; }
         public string SearchQueary { get; set; }
         public int PageNumber { get; set; }
+
         private int _pageSize = 10;
         public int PageSize
         {
